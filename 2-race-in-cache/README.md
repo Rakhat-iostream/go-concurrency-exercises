@@ -39,11 +39,11 @@ Found 3 data race(s)
 
 ## Additional Reading
 
-[https://golang.org/pkg/sync/](https://golang.org/pkg/sync/)
-[https://gobyexample.com/mutexes](https://gobyexample.com/mutexes)
-[https://golangdocs.com/mutex-in-golang](https://golangdocs.com/mutex-in-golang)
+* [https://golang.org/pkg/sync/](https://golang.org/pkg/sync/)
+* [https://gobyexample.com/mutexes](https://gobyexample.com/mutexes)
+* [https://golangdocs.com/mutex-in-golang](https://golangdocs.com/mutex-in-golang)
 
 ### High Performance Caches in Production
 
-[https://www.mailgun.com/blog/golangs-superior-cache-solution-memcached-redis/](https://www.mailgun.com/blog/golangs-superior-cache-solution-memcached-redis/)
-[https://allegro.tech/2016/03/writing-fast-cache-service-in-go.html](https://allegro.tech/2016/03/writing-fast-cache-service-in-go.html)
+* [https://www.mailgun.com/blog/golangs-superior-cache-solution-memcached-redis/](https://www.mailgun.com/blog/golangs-superior-cache-solution-memcached-redis/)
+* [https://allegro.tech/2016/03/writing-fast-cache-service-in-go.html](https://allegro.tech/2016/03/writing-fast-cache-service-in-go.html)
