@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	cycles        = 3
+	cycles        = 15
 	callsPerCycle = 100
 )
 
