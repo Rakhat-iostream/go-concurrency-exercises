@@ -31,15 +31,15 @@ func TestLRU(t *testing.T) {
 	cache := New(&loader)
 
 	for i := 0; i < 100; i++ {
-		cache.Get("Test " + strconv.Itoa(i))
+		cache.Get("Test" + strconv.Itoa(i))
 	}
 
 	if len(cache.cache) != 100 {
 		t.Errorf("cache not 100: %d", len(cache.cache))
 	}
-	cache.Get("Test 0")
-	cache.Get("Test 101")
-	if _, ok := cache.cache["Test 0"]; !ok {
+	cache.Get("Test0")
+	cache.Get("Test101")
+	if _, ok := cache.cache["Test0"]; !ok {
 		t.Errorf("0 evicted incorrectly: %v", cache.cache)
 	}
 

@@ -19,7 +19,7 @@ type KeyStoreCacheLoader interface {
 	Load(string) string
 }
 
-type Page struct {
+type page struct {
 	Key   string
 	Value string
 }
@@ -43,22 +43,21 @@ func New(load KeyStoreCacheLoader) *KeyStoreCache {
 func (k *KeyStoreCache) Get(key string) string {
 	if e, ok := k.cache[key]; ok {
 		k.pages.MoveToFront(e)
-		return e.Value.(Page).Value
-	} else {
-		// Miss - load from database and save it in cache
-		page := Page{key, k.load(key)}
-		// if cache is full remove the least used item
-		if len(k.cache) >= CacheSize {
-			end := k.pages.Back()
-			// remove from map
-			delete(k.cache, end.Value.(Page).Key)
-			// remove from list
-			k.pages.Remove(end)
-		}
-		k.pages.PushFront(page)
-		k.cache[key] = k.pages.Front()
-		return page.Value
+		return e.Value.(page).Value
 	}
+	// Miss - load from database and save it in cache
+	p := page{key, k.load(key)}
+	// if cache is full remove the least used item
+	if len(k.cache) >= CacheSize {
+		end := k.pages.Back()
+		// remove from map
+		delete(k.cache, end.Value.(page).Key)
+		// remove from list
+		k.pages.Remove(end)
+	}
+	k.pages.PushFront(p)
+	k.cache[key] = k.pages.Front()
+	return p.Value
 }
 
 // Loader implements KeyStoreLoader
