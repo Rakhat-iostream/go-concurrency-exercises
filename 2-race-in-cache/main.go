@@ -19,9 +19,14 @@ type KeyStoreCacheLoader interface {
 	Load(string) string
 }
 
+type page struct {
+	Key   string
+	Value string
+}
+
 // KeyStoreCache is a LRU cache for string key-value pairs
 type KeyStoreCache struct {
-	cache map[string]string
+	cache map[string]*list.Element
 	pages list.List
 	load  func(string) string
 }
@@ -30,28 +35,29 @@ type KeyStoreCache struct {
 func New(load KeyStoreCacheLoader) *KeyStoreCache {
 	return &KeyStoreCache{
 		load:  load.Load,
-		cache: make(map[string]string),
+		cache: make(map[string]*list.Element),
 	}
 }
 
 // Get gets the key from cache, loads it from the source if needed
 func (k *KeyStoreCache) Get(key string) string {
-	val, ok := k.cache[key]
-
-	// Miss - load from database and save it in cache
-	if !ok {
-		val = k.load(key)
-		k.cache[key] = val
-		k.pages.PushFront(key)
-
-		// if cache is full remove the least used item
-		if len(k.cache) > CacheSize {
-			delete(k.cache, k.pages.Back().Value.(string))
-			k.pages.Remove(k.pages.Back())
-		}
+	if e, ok := k.cache[key]; ok {
+		k.pages.MoveToFront(e)
+		return e.Value.(page).Value
 	}
-
-	return val
+	// Miss - load from database and save it in cache
+	p := page{key, k.load(key)}
+	// if cache is full remove the least used item
+	if len(k.cache) >= CacheSize {
+		end := k.pages.Back()
+		// remove from map
+		delete(k.cache, end.Value.(page).Key)
+		// remove from list
+		k.pages.Remove(end)
+	}
+	k.pages.PushFront(p)
+	k.cache[key] = k.pages.Front()
+	return p.Value
 }
 
 // Loader implements KeyStoreLoader
