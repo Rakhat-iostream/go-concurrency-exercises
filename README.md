@@ -37,4 +37,7 @@ The Go community has plenty resources to read about go's concurrency model and h
    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION 
 
   0. You just DO WHAT THE FUCK YOU WANT TO.
+
+
+Will do some exercise for my course on Software Perfomance Analysis
 ```
